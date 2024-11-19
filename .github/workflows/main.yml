@@ -25,12 +25,12 @@ jobs:
         run: |
           terraform plan -no-color | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
           terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
-      - name: Print job summary
-        uses: sgametrio/terraform-summary-action@main
-        with:
-          log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
-          # Optional
-          title: Custom header in the Job summary
+      # - name: Print job summary
+      #   uses: sgametrio/terraform-summary-action@main
+      #   with:
+      #     log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
+      #     # Optional
+      #     title: Custom header in the Job summary
       - name: testing output
         run: |
           echo "<span style='font-size:1.25rem;font-weight:semibold'></span>"
