@@ -34,6 +34,11 @@ jobs:
       - name: testing output
         run: |
           cat /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
+
+      - name: Print job output summary
+        uses: sgametrio/terraform-summary-action@main
+        with:
+          log-file: "/tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt"
       # - name:
       #   run: |
       #     # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
