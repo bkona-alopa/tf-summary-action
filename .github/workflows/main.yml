@@ -24,9 +24,11 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan | tee ${{ github.sha }}-${{env.environment}}-infra-plan
-      - name: Print job summary
-        uses: sgametrio/terraform-summary-action@main
-        with:
-          log-file: "${{ github.sha }}-${{env.environment}}-infra-plan"
-          # Optional
-          title: Custom header in the Job summary
+      # - name: Print job summary
+      #   uses: sgametrio/terraform-summary-action@main
+      #   with:
+      #     log-file: "${{ github.sha }}-${{env.environment}}-infra-plan"
+      #     # Optional
+      #     title: Custom header in the Job summary
+      - name:
+        run: cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
