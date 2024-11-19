@@ -23,22 +23,22 @@ jobs:
         run: terraform init -input=false -no-color
       - name: Terraform Plan
         run: |
-          terraform plan | tee ${{ github.sha }}-${{env.environment}}-infra-plan
-      # - name: Print job summary
-      #   uses: sgametrio/terraform-summary-action@main
-      #   with:
-      #     log-file: "${{ github.sha }}-${{env.environment}}-infra-plan"
-      #     # Optional
-      #     title: Custom header in the Job summary
-      - name:
-        run: |
-          # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
-          # cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
-          echo "********************************************" >> $GITHUB_STEP_SUMMARY
-          echo '```tf' >> $GITHUB_STEP_SUMMARY
-          echo "********************************************" >> $GITHUB_STEP_SUMMARY
-          echo "Terraform will perform the following actions:" >> $GITHUB_STEP_SUMMARY
-          # cat "${{ github.sha }}-${{env.environment}}-infra-plan" >> $GITHUB_STEP_SUMMARY
-          echo "********************************************" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "********************************************" >> $GITHUB_STEP_SUMMARY
+          terraform plan | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
+      - name: Print job summary
+        uses: sgametrio/terraform-summary-action@main
+        with:
+          log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
+          # Optional
+          title: Custom header in the Job summary
+      # - name:
+      #   run: |
+      #     # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
+      #     # cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
+      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
+      #     echo '```tf' >> $GITHUB_STEP_SUMMARY
+      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
+      #     echo "Terraform will perform the following actions:" >> $GITHUB_STEP_SUMMARY
+      #     # cat "${{ github.sha }}-${{env.environment}}-infra-plan" >> $GITHUB_STEP_SUMMARY
+      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
+      #     echo '```' >> $GITHUB_STEP_SUMMARY
+      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
