@@ -41,3 +41,4 @@ jobs:
           # cat "${{ github.sha }}-${{env.environment}}-infra-plan" >> $GITHUB_STEP_SUMMARY
           echo "********************************************" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "********************************************" >> $GITHUB_STEP_SUMMARY
