@@ -23,6 +23,12 @@ jobs:
         run: terraform init -input=false -no-color
       - name: Terraform Plan
         run: terraform plan -out='${{ github.sha }}-${{env.environment}}-infra-plan'
+      - name: test
+        run: |
+          echo "***********************************************"
+          cat ${{ github.sha }}-${{env.environment}}-infra-plan
+          echo "***********************************************"
+
       - name: Print job summary
         uses: sgametrio/terraform-summary-action@main
         with:
