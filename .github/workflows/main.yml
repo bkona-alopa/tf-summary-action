@@ -32,9 +32,9 @@ jobs:
       #     title: Custom header in the Job summary
       - name:
         run: |
-          sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
-          cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
-          echo '```tf'
+          # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
+          # cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
+          # echo '```tf'
           echo "********************************************"
           echo "Terraform will perform the following actions:"
           cat "${{ github.sha }}-${{env.environment}}-infra-plan"
