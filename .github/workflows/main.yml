@@ -31,4 +31,6 @@ jobs:
       #     # Optional
       #     title: Custom header in the Job summary
       - name:
-        run: cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
+        run: |
+          sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
+          cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
