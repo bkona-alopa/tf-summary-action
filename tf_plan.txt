@@ -1,0 +1,8 @@
+[0m[1mrandom_string.random[1]: Refreshing state... [id=H/s18X7S$WK6ayHc][0m
+[0m[1mrandom_string.random[0]: Refreshing state... [id=Q$P8dCzh2IDkAU$5][0m
+[0m[1mrandom_string.random[2]: Refreshing state... [id=j$2knDaSTNSgqS0N][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure matches the configuration.[0m
+
+[0mTerraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
