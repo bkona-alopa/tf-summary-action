@@ -24,12 +24,16 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan -no-color | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
+          terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
       - name: Print job summary
         uses: sgametrio/terraform-summary-action@main
         with:
           log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
           # Optional
           title: Custom header in the Job summary
+      - name: testing output
+        run: |
+          cat /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
       # - name:
       #   run: |
       #     # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
