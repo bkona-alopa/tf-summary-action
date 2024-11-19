@@ -26,6 +26,6 @@ jobs:
       - name: Print job summary
         uses: sgametrio/terraform-summary-action@main
         with:
-          log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
+          log-file: "tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
           # Optional
           title: Custom header in the Job summary
