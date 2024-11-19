@@ -33,7 +33,6 @@ jobs:
       #     title: Custom header in the Job summary
       - name: testing output
         run: |
-          echo "<span style='font-size:1.25rem;font-weight:semibold'>TF Outputs</span>" >> $GITHUB_STEP_SUMMARY
           echo "<details><summary>Expand for Terraform full output</summary><p>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```tf' >> $GITHUB_STEP_SUMMARY
