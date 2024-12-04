@@ -8,8 +8,8 @@ on:
       environment_from_input:
         type: choice
         required: false
-        default: "all"
         options:
+          - all
           - env1
           - env2
 
