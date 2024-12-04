@@ -7,6 +7,7 @@ on:
     inputs:
       environment_from_input:
         type: choice
+        default: "all"
         required: false
         options:
           - all
