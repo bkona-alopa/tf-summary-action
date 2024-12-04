@@ -3,6 +3,15 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      environment_from_input:
+        type: choice
+        required: false
+        default: "all"
+        options:
+          - env1
+          - env2
 
 env:
   environment: "DEV"
@@ -33,7 +42,7 @@ jobs:
       #     title: Custom header in the Job summary
       - name: testing output
         run: |
-          echo "<details><summary><h3>Expand for Terraform full output</summary></h3>" >> $GITHUB_STEP_SUMMARY
+          echo "<details><summary><h3>Expand for Terraform full output ${{inputs.environment_from_input}}</summary></h3>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```tf' >> $GITHUB_STEP_SUMMARY
           cat /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt >> $GITHUB_STEP_SUMMARY
