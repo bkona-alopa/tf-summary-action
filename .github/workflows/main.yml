@@ -15,7 +15,7 @@ on:
           - env2
       value_test:
         type: string
-        default: None
+        default: ""
         required: false
 
 env:
