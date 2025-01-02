@@ -27,9 +27,10 @@ jobs:
     environment: ${{ inputs.environment_from_input }}
     steps:
       - name: jira check
-        if: ${{ vars.is_jira_check_enabled }} == "true"
+        if: ${{ vars.is_jira_check_enabled == 'true' }}
         run: |
           echo "jira check done"
+          echo "var_jira: ${{ vars.is_jira_check_enabled }}"
       - name: checkout
         uses: actions/checkout@v4
       - name: Setup Terraform
