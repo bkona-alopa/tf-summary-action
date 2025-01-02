@@ -10,9 +10,8 @@ on:
         default: "all"
         required: false
         options:
-          - all
-          - env1
-          - env2
+          - DEV
+          - QA
       value_test:
         type: string
         default: ""
@@ -25,7 +24,12 @@ jobs:
   tf-plan:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: ${{ inputs.environment_from_input }}
     steps:
+      - name: jira check
+        if: ${{ vars.is_jira_check_enabled }}
+        run: |
+          echo "jira check done"
       - name: checkout
         uses: actions/checkout@v4
       - name: Setup Terraform
