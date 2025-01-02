@@ -1,0 +1,157 @@
+{
+    plans = {
+        APSouth1Plan = {
+            regions    = {
+                "@@assign" = [
+                    "ap-south-1",
+                  ]
+              }
+            rules      = {
+                HFBackUp    = {
+                    complete_backup_window_minutes = {
+                        "@@assign" = "120"
+                      }
+                    copy_actions                   = {}
+                    enable_continuous_backup       = {
+                        "@@assign" = true
+                      }
+                    lifecycle                      = {
+                        delete_after_days = {
+                            "@@assign" = "10"
+                          }
+                      }
+                    recovery_point_tags            = {
+                        BackUpMandated = {
+                            tag_key   = {
+                                "@@assign" = "BackUpMandated"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORG"
+                              }
+                          }
+                        BackUpType     = {
+                            tag_key   = {
+                                "@@assign" = "BackUpType"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORGHF"
+                              }
+                          }
+                      }
+                    schedule_expression            = {
+                        "@@assign" = "cron(0 2/4 ? * * *)"
+                      }
+                    start_backup_window_minutes    = {
+                        "@@assign" = "60"
+                      }
+                    target_backup_vault_name       = {
+                        "@@assign" = "AmalgamOrgVault"
+                      }
+                  }
+                MonthlyBack = {
+                    copy_actions             = {
+                        "arn:aws:backup:ap-south-2:$account:backup-vault:AmalgamOrgVault" = {
+                            lifecycle               = {
+                                delete_after_days = {
+                                    "@@assign" = "365"
+                                  }
+                              }
+                            target_backup_vault_arn = {
+                                "@@assign" = "arn:aws:backup:ap-south-2:$account:backup-vault:AmalgamOrgVault"
+                              }
+                          }
+                      }
+                    lifecycle                = {
+                        delete_after_days = {
+                            "@@assign" = "365"
+                          }
+                      }
+                    recovery_point_tags      = {
+                        BackUpMandated = {
+                            tag_key   = {
+                                "@@assign" = "BackUpMandated"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORG"
+                              }
+                          }
+                        BackUpType     = {
+                            tag_key   = {
+                                "@@assign" = "BackUpType"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORGMTHLY"
+                              }
+                          }
+                      }
+                    schedule_expression      = {
+                        "@@assign" = "cron(0 5 10 * ? *)"
+                      }
+                    target_backup_vault_name = {
+                        "@@assign" = "AmalgamOrgVault"
+                      }
+                  }
+                YearlyBack  = {
+                    copy_actions             = {
+                        "arn:aws:backup:ap-south-2:$account:backup-vault:AmalgamOrgVault" = {
+                            lifecycle               = {
+                                delete_after_days = {
+                                    "@@assign" = "3650"
+                                  }
+                              }
+                            target_backup_vault_arn = {
+                                "@@assign" = "arn:aws:backup:ap-south-2:$account:backup-vault:AmalgamOrgVault"
+                              }
+                          }
+                      }
+                    lifecycle                = {
+                        delete_after_days = {
+                            "@@assign" = "3650"
+                          }
+                      }
+                    recovery_point_tags      = {
+                        BackUpMandated = {
+                            tag_key   = {
+                                "@@assign" = "BackUpMandated"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORG"
+                              }
+                          }
+                        BackUpType     = {
+                            tag_key   = {
+                                "@@assign" = "BackUpType"
+                              }
+                            tag_value = {
+                                "@@assign" = "ORGYRLY"
+                              }
+                          }
+                      }
+                    schedule_expression      = {
+                        "@@assign" = "cron(0 5 1 1 ? *)"
+                      }
+                    target_backup_vault_name = {
+                        "@@assign" = "AmalgamOrgVault"
+                      }
+                  }
+              }
+            selections = {
+                tags = {
+                    STDBackUP = {
+                        iam_role_arn = {
+                            "@@assign" = "arn:aws:iam::$account:role/amalgam_bkup_role"
+                          }
+                        tag_key      = {
+                            "@@assign" = "BackUpPolicy"
+                          }
+                        tag_value    = {
+                            "@@assign" = [
+                                "AmalgamStdBackUp",
+                              ]
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
