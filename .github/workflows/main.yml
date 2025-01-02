@@ -27,7 +27,7 @@ jobs:
     environment: ${{ inputs.environment_from_input }}
     steps:
       - name: jira check
-        if: ${{ vars.is_jira_check_enabled }}
+        if: ${{ vars.is_jira_check_enabled }} == "true"
         run: |
           echo "jira check done"
       - name: checkout
