@@ -46,6 +46,7 @@ jobs:
           terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
           echo "Hello World" > /tmp/test-file.txt
           echo "this is dummy" >> /tmp/test-file.txt
+          echo "https://img.shields.io/badge/Made_with-Jekyll-blue.svg" >> /tmp/test-file.txt
       # - name: Print job summary
       #   uses: sgametrio/terraform-summary-action@main
       #   with:
