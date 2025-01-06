@@ -44,6 +44,8 @@ jobs:
         run: |
           terraform plan -no-color | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
           terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
+          echo "Hello World" > /tmp/test-file.txt
+          echo "this is dummy" >> /tmp/test-file.txt
       # - name: Print job summary
       #   uses: sgametrio/terraform-summary-action@main
       #   with:
@@ -60,6 +62,8 @@ jobs:
           echo &#x2612; >> $GITHUB_STEP_SUMMARY
 
           echo "input = ${{ inputs.value_test }}" >> $GITHUB_STEP_SUMMARY
+
+          cat /tmp/test-file.txt >> $GITHUB_STEP_SUMMARY
 
       # - name:
       #   run: |
