@@ -44,9 +44,8 @@ jobs:
         run: |
           terraform plan -no-color | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
           terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
-          echo "Hello World" > /tmp/test-file.md
-          echo "this is dummy" >> /tmp/test-file.md
-          echo "[This is an external link to genome.gov](https://img.shields.io/badge/Made_with-Jekyll-blue.svg)" >> /tmp/test-file.md
+          echo "[AVHN-577](https://amalgamrx.atlassian.net/browse/AVHN-577) : Change logo for Eylea HD on the portal"  >> /tmp/test-file.md
+          echo "[AVHN-553](https://amalgamrx.atlassian.net/browse/AVHN-553) : Changes to MMIT Api calls"  >> /tmp/test-file.md
       # - name: Print job summary
       #   uses: sgametrio/terraform-summary-action@main
       #   with:
