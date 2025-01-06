@@ -63,8 +63,9 @@ jobs:
           echo &#x2612; >> $GITHUB_STEP_SUMMARY
 
           echo "input = ${{ inputs.value_test }}" >> $GITHUB_STEP_SUMMARY
-
+          echo '```html' >> $GITHUB_STEP_SUMMARY
           cat /tmp/test-file.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       # - name:
       #   run: |
