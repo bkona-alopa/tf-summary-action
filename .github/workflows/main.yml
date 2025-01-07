@@ -62,7 +62,7 @@ jobs:
           fi
           echo "version: $version"
           newTagVersion=`expr $version + 1`
-          echo "newTag=deploy__DEV__V1.0.0-$newTagVersion" >> $GITHUB_ENV
+          echo "newTag=deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}-$newTagVersion" >> $GITHUB_ENV
 
       - name: Create Deployment new Tag
         if: steps.check-tag.outputs.exists == 'true'
