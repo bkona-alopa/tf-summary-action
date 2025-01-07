@@ -45,7 +45,7 @@ jobs:
       - name: warning
         if: steps.check-tag.outputs.exists == 'true'
         run: |
-          echo "::warning title=WARN::Tag already exits"
+          echo "::warning title=Alert::‼️Tag already exists, re-releasing a new version"
 
       - name: Find Tag
         id: newTagVersion
