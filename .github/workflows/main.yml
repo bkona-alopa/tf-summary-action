@@ -45,8 +45,8 @@ jobs:
         run: |
           echo "::warning title=WARN::Tag already exits"
       - name: Find Tag
-        if: steps.check-tag.outputs.exists == 'true'
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
+          commit-ish: "HEAD"
           include: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*"
