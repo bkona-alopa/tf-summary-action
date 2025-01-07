@@ -1,8 +1,5 @@
 name: Tag test
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       environment_from_input:
