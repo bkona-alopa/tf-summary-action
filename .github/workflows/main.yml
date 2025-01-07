@@ -26,53 +26,28 @@ jobs:
     timeout-minutes: 5
     environment: ${{ inputs.environment_from_input }}
     steps:
-      - name: jira check
-        if: ${{ vars.is_jira_check_enabled == 'true' }}
-        run: |
-          echo "jira check done"
-          echo "var_jira: ${{ vars.is_jira_check_enabled }}"
       - name: checkout
         uses: actions/checkout@v4
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name: Check if tag exists
+        uses: mukunku/tag-exists-action@v1.6.0
+        id: check-tag
         with:
-          terraform_wrapper: false
-      - name: Terraform Init
-        id: init
-        run: terraform init -input=false -no-color
-      - name: Terraform Plan
+          tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+      - name: Create Deployment Tag
+        if: steps.check-tag.outputs.exists == 'false'
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: "deploy__${{ inputs.deployment_environment }}__${{ env.SHORT_SHA }}"
+          tag_prefix: ""
+      - name: warning
+        if: steps.check-tag.outputs.exists == 'true'
         run: |
-          terraform plan -no-color | tee /tmp/${{ github.sha }}-${{env.environment}}-infra-plan
-          terraform output -no-color > /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt
-          echo "[AVHN-577](https://amalgamrx.atlassian.net/browse/AVHN-577) : Change logo for Eylea HD on the portal"  >> /tmp/test-file.md
-          echo "[AVHN-553](https://amalgamrx.atlassian.net/browse/AVHN-553) : Changes to MMIT Api calls"  >> /tmp/test-file.md
-      # - name: Print job summary
-      #   uses: sgametrio/terraform-summary-action@main
-      #   with:
-      #     log-file: "/tmp/${{ github.sha }}-${{env.environment}}-infra-plan"
-      #     # Optional
-      #     title: Custom header in the Job summary
-      - name: testing output
-        run: |
-          echo "<details><summary><h3>Expand for Terraform full output ${{inputs.environment_from_input}}</summary></h3>" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```tf' >> $GITHUB_STEP_SUMMARY
-          cat /tmp/${{ github.sha }}-${{env.environment}}-output-from-plan.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo &#x2612; >> $GITHUB_STEP_SUMMARY
+          echo "::warning title=WARN::Tag already exits"
 
-          echo "input = ${{ inputs.value_test }}" >> $GITHUB_STEP_SUMMARY
-          cat /tmp/test-file.md >> $GITHUB_STEP_SUMMARY
-
-      # - name:
-      #   run: |
-      #     # sed -i 's/\x1b\[[0-9;]*m//g' -i'' ${{ github.sha }}-${{env.environment}}-infra-plan
-      #     # cat ${{ github.sha }}-${{env.environment}}-infra-plan >> $GITHUB_STEP_SUMMARY
-      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
-      #     echo '```tf' >> $GITHUB_STEP_SUMMARY
-      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
-      #     echo "Terraform will perform the following actions:" >> $GITHUB_STEP_SUMMARY
-      #     # cat "${{ github.sha }}-${{env.environment}}-infra-plan" >> $GITHUB_STEP_SUMMARY
-      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
-      #     echo '```' >> $GITHUB_STEP_SUMMARY
-      #     echo "********************************************" >> $GITHUB_STEP_SUMMARY
+      - name: Find Tag
+        if: steps.check-tag.outputs.exists == 'true'
+        id: tagger
+        uses: jimschubert/query-tag-action@v1
+        with:
+          include: "deploy__${{ inputs.deployment_environment }}__${{ env.SHORT_SHA }}"
