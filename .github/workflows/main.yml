@@ -50,3 +50,6 @@ jobs:
         uses: jimschubert/query-tag-action@v1
         with:
           include: "0.0.2*"
+      - name: testing
+        run: |
+          echo "status : ${{ steps.tagger.outcome}}"
