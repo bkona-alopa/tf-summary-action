@@ -46,6 +46,7 @@ jobs:
           echo "::warning title=WARN::Tag already exits"
       - name: Find Tag
         id: tagger
+        continue-on-error: true
         uses: jimschubert/query-tag-action@v1
         with:
-          include: "0.0.1*"
+          include: "0.0.2*"
