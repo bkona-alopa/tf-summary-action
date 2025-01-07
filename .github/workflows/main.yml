@@ -49,7 +49,7 @@ jobs:
         continue-on-error: true
         uses: jimschubert/query-tag-action@v1
         with:
-          include: "0.0.2*"
+          include: "deploy__DEV__V1.0.0*"
       - name: testing
         run: |
           echo "status : ${{ steps.tagger.outcome}}"
