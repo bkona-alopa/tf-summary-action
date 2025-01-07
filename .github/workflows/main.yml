@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        with:
+          path: BaseRepo
       - name: Get short SHA
         run: |
           echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
@@ -44,12 +46,23 @@ jobs:
         if: steps.check-tag.outputs.exists == 'true'
         run: |
           echo "::warning title=WARN::Tag already exits"
+      - name: changing directory
+        working-directory: ./BaseRepo
+        run: |
+          echo "test"
+          pwd
       - name: Find Tag
         id: tagger
         continue-on-error: true
         uses: jimschubert/query-tag-action@v1
         with:
           include: "deploy__DEV__V1.0.0*"
+      - name: changing directory
+        working-directory: .
+        run: |
+          echo "test"
+          pwd
+
       - name: testing
         if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
         run: |
