@@ -56,7 +56,7 @@ jobs:
           version_check=`echo $latestTag | cut -f2 -d"-"`
           if [[ $version_check == $latestTag ]];
           then
-            version=0
+            version=1
           else
             version=`echo $latestTag | cut -f2 -d"-"`
           fi
