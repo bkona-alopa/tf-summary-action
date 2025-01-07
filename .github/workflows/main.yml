@@ -51,5 +51,6 @@ jobs:
         with:
           include: "deploy__DEV__V1.0.0*"
       - name: testing
+        if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
         run: |
           echo "status : ${{ steps.tagger.outcome}}"
