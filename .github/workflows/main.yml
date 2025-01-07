@@ -48,5 +48,4 @@ jobs:
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
-          commit-ish: "HEAD"
-          include: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*"
+          include: "0.0.1*"
