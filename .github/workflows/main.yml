@@ -48,4 +48,4 @@ jobs:
       - name: Find Tag
         if: steps.check-tag.outputs.exists == 'true'
         run: |
-          git describe --tags --match="deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}" HEAD
+          git describe --match "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*" --abbrev=0 --tags $(git rev-list --tags --max-count=1)
