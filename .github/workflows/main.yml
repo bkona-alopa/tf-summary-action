@@ -48,6 +48,20 @@ jobs:
           echo "::warning title=WARN::Tag already exits"
 
       - name: Find Tag
+        id: newTagVersion
         if: steps.check-tag.outputs.exists == 'true'
         run: |
-          git describe --match "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*" --abbrev=0 --tags $(git rev-list --tags --max-count=1)
+          latestTag=$(git describe --match "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+          echo "latest tag: $latestTag"
+          version=`echo $latestTag | cut -f2 -d"-"`
+          echo "version: $version"
+          newTagVersion=`expr $version + 1`
+          echo "newTag=deploy__DEV__V1.0.0-$newTagVersion" >> $GITHUB_ENV
+
+      - name: Create Deployment new Tag
+        if: steps.check-tag.outputs.exists == 'true'
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: "${{ env.newTagVersion }}"
+          tag_prefix: ""
