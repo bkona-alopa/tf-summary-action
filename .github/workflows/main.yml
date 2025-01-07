@@ -53,7 +53,13 @@ jobs:
         run: |
           latestTag=$(git describe --match "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
           echo "latest tag: $latestTag"
-          version=`echo $latestTag | cut -f2 -d"-"`
+          version_check=`echo $latestTag | cut -f2 -d"-"`
+          if [[ $version_check == $latestTag ]];
+          then
+            version=0
+          else
+            version=`echo $latestTag | cut -f2 -d"-"`
+          fi
           echo "version: $version"
           newTagVersion=`expr $version + 1`
           echo "newTag=deploy__DEV__V1.0.0-$newTagVersion" >> $GITHUB_ENV
