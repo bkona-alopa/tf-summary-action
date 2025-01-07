@@ -47,7 +47,5 @@ jobs:
 
       - name: Find Tag
         if: steps.check-tag.outputs.exists == 'true'
-        id: tagger
-        uses: jimschubert/query-tag-action@v1
-        with:
-          include: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
+        run: |
+          git describe --tags --match="deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}" HEAD
