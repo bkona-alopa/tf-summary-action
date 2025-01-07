@@ -1,4 +1,4 @@
-name: TF Plan & Apply
+name: Tag test
 on:
   push:
     branches:
@@ -7,15 +7,10 @@ on:
     inputs:
       environment_from_input:
         type: choice
-        default: "all"
         required: false
         options:
           - DEV
           - QA
-      value_test:
-        type: string
-        default: ""
-        required: false
 
 env:
   environment: "DEV"
@@ -23,7 +18,7 @@ env:
 permissions: write-all
 
 jobs:
-  tf-plan:
+  test-tag:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment: ${{ inputs.environment_from_input }}
@@ -40,7 +35,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "deploy__${{ inputs.deployment_environment }}__${{ env.SHORT_SHA }}"
+          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
           tag_prefix: ""
       - name: warning
         if: steps.check-tag.outputs.exists == 'true'
@@ -52,4 +47,4 @@ jobs:
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
-          include: "deploy__${{ inputs.deployment_environment }}__${{ env.SHORT_SHA }}"
+          include: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
