@@ -25,12 +25,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Get short SHA
         run: |
           echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-          echo "dateTime=$(date +'%Y%m%d%H%M')" >> "$GITHUB_ENV"
       - name: Check if tag exists
         uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
@@ -46,29 +43,10 @@ jobs:
       - name: warning
         if: steps.check-tag.outputs.exists == 'true'
         run: |
-          echo "::warning title=Alert::‼️Tag already exists, re-releasing a new version"
-
+          echo "::warning title=WARN::Tag already exits"
       - name: Find Tag
-        id: newTagVersion
         if: steps.check-tag.outputs.exists == 'true'
-        run: |
-          latestTag=$(git describe --match "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
-          echo "latest tag: $latestTag"
-          version_check=`echo $latestTag | cut -f2 -d"-"`
-          if [[ $version_check == $latestTag ]];
-          then
-            version=1
-          else
-            version=`echo $latestTag | cut -f2 -d"-"`
-          fi
-          echo "version: $version"
-          newTagVersion=`expr $version + 1`
-          echo "newTag=deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}-$newTagVersion-${{env.dateTime}}" >> $GITHUB_ENV
-
-      - name: Create Deployment new Tag
-        if: steps.check-tag.outputs.exists == 'true'
-        uses: mathieudutour/github-tag-action@v6.2
+        id: tagger
+        uses: jimschubert/query-tag-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "${{ env.newTag }}"
-          tag_prefix: ""
+          include: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}*"
