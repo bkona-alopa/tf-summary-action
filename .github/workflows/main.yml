@@ -11,6 +11,9 @@ on:
         options:
           - DEV
           - QA
+      release_name:
+        type: string
+        required: false
 
 env:
   environment: "DEV"
@@ -32,13 +35,13 @@ jobs:
         uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
         with:
-          tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+          tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
       - name: Create Deployment Tag
         if: steps.check-tag.outputs.exists == 'false'
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
           tag_prefix: ""
       - name: warning
         if: steps.check-tag.outputs.exists == 'true'
@@ -50,4 +53,4 @@ jobs:
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
-          include: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+          include: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
