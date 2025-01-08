@@ -52,7 +52,7 @@ jobs:
         uses: jimschubert/query-tag-action@v1
         with:
           include: "deploy__DEV__V1.0.0*"
-          skip-unshallow: "true"
+          commit-ish: HEAD
 
       - name: testing
         if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
