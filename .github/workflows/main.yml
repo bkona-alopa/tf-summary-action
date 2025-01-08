@@ -53,6 +53,7 @@ jobs:
         with:
           include: "deploy__QA__V1.0.0*"
           commit-ish: "HEAD"
+          skip-unshallow: "true"
 
       - name: testing
         if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
