@@ -23,38 +23,50 @@ jobs:
     timeout-minutes: 5
     environment: ${{ inputs.environment_from_input }}
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
+      # - name: checkout
+      #   uses: actions/checkout@v4
 
-      - name: Get short SHA
-        run: |
-          echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-      - name: Check if tag exists
-        uses: mukunku/tag-exists-action@v1.6.0
-        id: check-tag
-        with:
-          tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
-      - name: Create Deployment Tag
-        if: steps.check-tag.outputs.exists == 'false'
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
-          tag_prefix: ""
-      - name: warning
-        if: steps.check-tag.outputs.exists == 'true'
-        run: |
-          echo "::warning title=WARN::Tag already exits"
+      # - name: Get short SHA
+      #   run: |
+      #     echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+      # - name: Check if tag exists
+      #   uses: mukunku/tag-exists-action@v1.6.0
+      #   id: check-tag
+      #   with:
+      #     tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
+      # - name: Create Deployment Tag
+      #   if: steps.check-tag.outputs.exists == 'false'
+      #   uses: mathieudutour/github-tag-action@v6.2
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.release_name }}"
+      #     tag_prefix: ""
+      # - name: warning
+      #   if: steps.check-tag.outputs.exists == 'true'
+      #   run: |
+      #     echo "::warning title=WARN::Tag already exits"
 
-      - name: Find Tag
-        id: tagger
-        continue-on-error: true
-        uses: jimschubert/query-tag-action@v1
-        with:
-          include: "deploy__QA__V1.0.0*"
-          commit-ish: "HEAD"
+      # - name: Find Tag
+      #   id: tagger
+      #   continue-on-error: true
+      #   uses: jimschubert/query-tag-action@v1
+      #   with:
+      #     include: "deploy__QA__V1.0.0*"
+      #     commit-ish: "HEAD"
 
-      - name: testing
-        if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
+      # - name: testing
+      #   if: ${{ vars.IS_JIRA_CHECK_ENABLED == 'true' && steps.tagger.outcome == 'success'}}
+      #   run: |
+      #     echo "status : ${{ steps.tagger.outcome}}"
+
+      - name: testing new action
+        uses: amalgam-rx/create-env-to-json-action@master
+        id: create-env
+        with:
+          file-name: "test.json"
+          super-secret: ${{ secrets.SuperSecret }}
+          CONNECTION_STRING: ${{ secrets.connection_string }}
+
+      - name: testing new file
         run: |
-          echo "status : ${{ steps.tagger.outcome}}"
+          cat test.json
