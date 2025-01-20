@@ -2,13 +2,7 @@ name: Tag test
 on:
   workflow_dispatch:
     inputs:
-      environment_from_input:
-        type: choice
-        required: false
-        options:
-          - DEV
-          - QA
-      release_name:
+      commit_id:
         type: string
         required: false
 
@@ -25,15 +19,19 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_id }}
 
       - name: Get short SHA
         run: |
           echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+
       - name: Check if tag exists
         uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
         with:
           tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+
       - name: Create Deployment Tag
         if: steps.check-tag.outputs.exists == 'false'
         uses: mathieudutour/github-tag-action@v6.2
@@ -41,10 +39,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
           tag_prefix: ""
-      - name: warning
-        if: steps.check-tag.outputs.exists == 'true'
-        run: |
-          echo "::warning title=WARN::Tag already exits"
+      # - name: warning
+      #   if: steps.check-tag.outputs.exists == 'true'
+      #   run: |
+      #     echo "::warning title=WARN::Tag already exits"
 
       # - name: Find Tag
       #   id: tagger
