@@ -21,8 +21,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.commit_id }}
 
       # - name: Get short SHA
       #   run: |
