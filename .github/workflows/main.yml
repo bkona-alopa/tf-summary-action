@@ -22,22 +22,22 @@ jobs:
         with:
           ref: ${{ inputs.commit_id }}
 
-      - name: Get short SHA
-        run: |
-          echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+      # - name: Get short SHA
+      #   run: |
+      #     echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
 
       - name: Check if tag exists
         uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
         with:
-          tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+          tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.environment_from_input }}"
 
       - name: Create Deployment Tag
         if: steps.check-tag.outputs.exists == 'false'
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ env.SHORT_SHA }}"
+          custom_tag: "deploy__${{ inputs.environment_from_input }}__${{ inputs.environment_from_input }}"
           tag_prefix: ""
       # - name: warning
       #   if: steps.check-tag.outputs.exists == 'true'
