@@ -9,7 +9,9 @@ on:
 env:
   environment: "DEV"
 
-permissions: write-all
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
   test-tag:
