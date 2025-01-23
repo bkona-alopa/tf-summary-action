@@ -22,22 +22,27 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      # - name: Get short SHA
-      #   run: |
-      #     echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+      - name: Get short SHA
+        run: |
+          echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+          echo "NOW1=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
 
       - name: Check if tag exists
         uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
         with:
-          tag: "deploy__DEV__${{ inputs.commit_id }}"
+          tag: "deploy__DEV__${{ inputs.commit_id }}__${{ env.NOW1 }}"
+
+      - name: Get short NOW SHA
+        run: |
+          echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+          echo "NOW2=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
 
       - name: Create Deployment Tag
-        if: steps.check-tag.outputs.exists == 'false'
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "deploy__DEV__${{ inputs.commit_id }}"
+          custom_tag: "deploy__DEV__${{ inputs.commit_id }}__test__${{ env.NOW2 }}"
           tag_prefix: ""
       # - name: warning
       #   if: steps.check-tag.outputs.exists == 'true'
