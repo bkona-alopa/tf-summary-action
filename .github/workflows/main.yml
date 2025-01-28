@@ -8,7 +8,7 @@ on:
       is_additional_build:
         type: boolean
         required: false
-      release_infor:
+      release_info:
         type: string
         required: false
       environment:
@@ -23,7 +23,7 @@ permissions:
   id-token: write
   contents: write
 
-run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && "is a additonal build") || "" }} with release info ${{ input.release_infor }}"
+run-name: 'Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && "is a additonal build") || "" }} with release info ${{ inputs.release_info }}'
 
 jobs:
   test-tag:
