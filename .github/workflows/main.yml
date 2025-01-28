@@ -23,7 +23,7 @@ permissions:
   id-token: write
   contents: write
 
-# run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && "is a additonal build") || "" }} with release info ${{ input.release_infor }}"
+run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && "is a additonal build") || "" }} with release info ${{ input.release_infor }}"
 
 jobs:
   test-tag:
