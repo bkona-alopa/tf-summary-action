@@ -11,10 +11,10 @@ on:
       release_info:
         type: string
         required: false
+        description: release_info format <JIRA_TICKET> <RELEASE_NAME>
       environment:
         type: string
         required: false
-        description: release_info format <JIRA_TICKET> <RELEASE_NAME>
 
 env:
   environment: "DEV"
