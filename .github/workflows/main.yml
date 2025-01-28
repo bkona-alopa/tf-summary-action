@@ -5,6 +5,16 @@ on:
       commit_id:
         type: string
         required: false
+      is_additional_build:
+        type: boolean
+        required: false
+      release_infor:
+        type: string
+        required: false
+      environment:
+        type: string
+        required: false
+        description: release_info format <JIRA_TICKET> <RELEASE_NAME>
 
 env:
   environment: "DEV"
@@ -13,7 +23,7 @@ permissions:
   id-token: write
   contents: write
 
-run-name: "${{ contains(github.head_ref, 'feature/') && 'Feature' || contains(github.head_ref, 'bugfix/') && 'Bugfix' || 'Update' }}: ${{ github.head_ref }} by @${{ github.actor }} -- ${{ inputs.commit_id }}"
+run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && "is a additonal build") || "" }} with release info ${{ input.release_infor }}"
 
 jobs:
   test-tag:
