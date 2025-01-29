@@ -8,7 +8,7 @@ on:
         type: string
         required: false
 
-run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && '(additonal build)') || '' }} ${{ (inputs.release_info != '' && format('with release info {0}', inputs.release_info)) || '' }}"
+run-name: "Deployemnt to ${{inputs.deployment_environment }} ${{ (inputs.is_additional_build && '(additonal build)') || '' }} ${{ (inputs.release_info != '' && format('with release info {0}', inputs.release_info)) || '' }}"
 
 jobs:
   test:

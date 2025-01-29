@@ -75,7 +75,7 @@ jobs:
       #     echo "status : ${{ steps.tagger.outcome}}"
 
   DeployToCountries:
-      name:  Deploy To Countries in $${{ inputs.environment }}
+      name:  Deploy To Countries in ${{ inputs.environment }}
       needs: test-tag     
       strategy:
         fail-fast: false
@@ -84,5 +84,5 @@ jobs:
       uses: ./.github/workflows/Deploy-Specific-DB.yml
       secrets: inherit
       with:
-        deployment_environment: $${{ matrix.db_countries }}
-        release_info: $${{ inputs.release_info }}
+        deployment_environment: ${{ matrix.db_countries }}
+        release_info: ${{ inputs.release_info }}
