@@ -13,7 +13,7 @@ on:
         required: false
         description: "release_info: format <JIRA_TICKET> <RELEASE_NAME>"
       environment:
-        type: string
+        type: environment
         required: false
 
 env:
