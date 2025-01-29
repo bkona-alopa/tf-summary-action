@@ -1,0 +1,24 @@
+on:
+  workflow_call:
+    inputs:
+      deployment_environment:
+        type: environment
+        required: false
+      release_info:
+        type: string
+        required: false
+
+run-name: "Deployemnt to ${{inputs.environment }} ${{ (inputs.is_additional_build && '(additonal build)') || '' }} ${{ (inputs.release_info != '' && format('with release info {0}', inputs.release_info)) || '' }}"
+
+jobs:
+  test:
+    name: running for ${{ inputs.deployment_environment }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    environment: ${{ inputs.deployment_environment }}
+
+    steps:
+      - name: testing the workflow
+        run: |
+          echo "${{ inputs.deployment_environment }} - ${{ inputs.release_info }}"
