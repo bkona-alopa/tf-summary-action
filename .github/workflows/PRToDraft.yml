@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   convert-to-draft:
@@ -10,6 +10,10 @@ jobs:
       pull-requests: write
 
     steps:
-      - run: gh pr ready --undo ${{ github.event.pull_request.number }}
+      - name: Checkout
+        uses: actions/checkout@v4
+    
+      - name: Convert PR to Draft
+        run: gh pr ready --undo ${{ github.event.pull_request.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
