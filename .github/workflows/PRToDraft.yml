@@ -2,7 +2,7 @@ name: Convert PR to Draft
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 concurrency:
   group: pr-${{ github.event.pull_request.number }}
