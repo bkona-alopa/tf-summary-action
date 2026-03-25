@@ -16,4 +16,4 @@ jobs:
       - name: Convert PR to Draft
         run: gh pr ready --undo ${{ github.event.pull_request.number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
