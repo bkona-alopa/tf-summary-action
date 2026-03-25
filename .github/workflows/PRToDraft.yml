@@ -1,25 +1,15 @@
-name: Convert PR to Draft
-
 on:
   pull_request:
-    types: [opened, reopened]
-
-concurrency:
-  group: pr-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+    types: [opened]
 
 jobs:
-  convert_to_draft:
+  convert-to-draft:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
 
     steps:
-      - name: Convert PR to Draft
-        uses: yu-iskw/convert-to-draft-action@v0.3.0
-        with:
+      - run: gh pr ready --undo ${{ github.event.pull_request.number }}
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          leave_comment: "1"
-          comment_body: |
-            PR auto-converted to draft. Mark it ready when changes are stable.
